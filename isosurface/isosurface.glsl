@@ -8,14 +8,27 @@ uniform float u_time;
 
 out vec4 outColor;
 
+vec2 blob;
+vec2 blob2;
+
 void main(){
-	vec2 st=gl_FragCoord.xy/u_resolution.xy;
-	st.x*=u_resolution.x/u_resolution.y;
+	vec2 st = gl_FragCoord.xy/u_resolution.xy;
+	st.x *= u_resolution.x/u_resolution.y;
   st *= 2.0;
   st -= 1.0;
 
-  float d = distance(vec2(0., 0.), vec2(0.2, 0.2) );
+  blob = vec2( .0 + sin(u_time), .0 + cos(u_time));
+  blob *= 0.7;
+  float d = 1./length( blob - st );
+  d /= 15.;
 
-  vec3 color = vec3(d, 0., 0.0);
-	outColor=vec4(color,1.);
+  blob2 = vec2(cos(u_time), sin(u_time)); 
+  blob2 *= 0.55;
+  float d2 = 1./length( blob2 - st );
+  d2 /= 15.;
+  
+  vec3 color = vec3(0., d+d2, 0.);
+  //vec3 color = vec3(st.x, st.y, d);
+
+	outColor = vec4(color,1.);
 }
